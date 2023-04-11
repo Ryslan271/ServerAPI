@@ -23,11 +23,11 @@ namespace Server.Controllers.GetControllers
         {
             try
             {
-                return string.Join("", string.Join("\n", DatabaseContext.NamesDirectoryForClient(Id)).Split("\\")[^0..^2]);
+                return string.Join("\\", string.Join("\n", DatabaseContext.NamesDirectoryForClient(Id)).Split("\\").Last());
             }
-            catch
+            catch (Exception mes)
             {
-                return "Что то пошло не так";
+                return $"{mes.Message}";
             }
         }
     }

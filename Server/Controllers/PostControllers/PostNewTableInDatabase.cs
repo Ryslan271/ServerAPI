@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Server.DataBase;
 using System.Data.SQLite;
+using System.Text.RegularExpressions;
 
 namespace Server.Controllers.PostControllers
 {
@@ -20,23 +21,26 @@ namespace Server.Controllers.PostControllers
         /// <returns>Состояние</returns>
         [HttpPost]
         [Route("PostNameTableInDB")]
-        public string Post(int id, string nameDB, string nameTable)
+        public string Post(int id, string nameDB, string nameTable, string attributes)
         {
+            // name1 nvarchar(20)| name2 nvarchar(20)
+
+            string[][] dictionary = attributes.Split('|').Select(column => Regex.Split(column.Trim(), @"[ ]+")).ToArray();
+
+            string sqlCommand = $"Create Table {nameTable} (\n{string.Join(",\n", dictionary.Select(pair => $"{pair[0]} {pair[1]}"))}\n)";
+
             try
             {
                 SQLiteConnection m_dbConnection = DatabaseContext.ConnectionDB(id, nameDB); // подключение к нужной базе
 
                 m_dbConnection.Open(); // открытие соедение
 
-
-                string sql = $"Create Table {nameTable} (name varchar(20), score int)";
-
-                SQLiteCommand command = new(sql, m_dbConnection);
+                SQLiteCommand command = new(sqlCommand, m_dbConnection);
                 command.ExecuteNonQuery();
 
                 m_dbConnection.Close();
 
-                return "Все прошло успешно";
+                return sqlCommand;
             }
             catch (Exception mes)
             {
