@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DataBase\Model\" />
+    <Folder Include="DataBase\Model\CoreDatabase\" />
   </ItemGroup>
 
 </Project>

@@ -21,7 +21,7 @@ namespace Server.Controllers.GetControllers
         /// <returns>Данные из таблицы</returns>
         [HttpGet]
         [Route("GetDataTableFromDatabase")]
-        public string Get(int id, string NameDb, string NameTb)
+        public string Get(string id, string NameDb, string NameTb)
         {
             string connectionString = $"Data Source={DatabaseContext.PathBeforeDataBase(id, NameDb)};Version=3;";
             SQLiteConnection m_dbConnection = new(connectionString);

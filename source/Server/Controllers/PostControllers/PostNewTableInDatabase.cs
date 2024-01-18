@@ -21,7 +21,7 @@ namespace Server.Controllers.PostControllers
         /// <returns>Состояние</returns>
         [HttpPost]
         [Route("PostNameTableInDB")]
-        public string Post(int id, string nameDB, string nameTable, string attributes)
+        public string Post(int id, string nameDB, string nameTable, (string attributes, string ))
         {
             // name1 nvarchar(20)| name2 nvarchar(20)
 
